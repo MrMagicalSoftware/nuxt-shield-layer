@@ -1,0 +1,52 @@
+{
+  "name": "nuxt-shield-layer",
+  "version": "0.1.0",
+  "description": "Nuxt layer riutilizzabile: protezione anti-scanning e anti-scraping, blocco di IP e di paesi, IP fidati e pannello di gestione.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrMagicalSoftware/nuxt-shield-layer.git"
+  },
+  "keywords": [
+    "nuxt",
+    "nuxt-layer",
+    "security",
+    "firewall",
+    "rate-limit",
+    "ip-blocking",
+    "geoblocking"
+  ],
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "bin": {
+    "nuxt-shield": "./bin/shield.mjs"
+  },
+  "files": [
+    "nuxt.config.ts",
+    "bin",
+    "components",
+    "firewall",
+    "lib",
+    "pages",
+    "server",
+    "shared",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "nuxi dev .playground",
+    "build": "nuxi build .playground",
+    "preview": "node --env-file-if-exists=.playground/.env .playground/.output/server/index.mjs",
+    "typecheck": "nuxi typecheck .playground",
+    "test": "node --test test/*.test.mjs"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.13.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "nuxt": "^4.6.3",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.13",
+    "vue-tsc": "^3.3.14"
+  }
+}

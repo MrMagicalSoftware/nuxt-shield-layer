@@ -1,0 +1,46 @@
+/**
+ * Paesi che si possono bloccare (codici ISO 3166-1 alpha-2, maiuscoli): quelli per cui ipdeny.com
+ * pubblica gli intervalli di indirizzi. T1 è il codice con cui Cloudflare indica la rete Tor: non ha
+ * intervalli, si riconosce solo dall'header di Cloudflare.
+ *
+ * Usato sia dal server sia dal pannello: niente dipendenze da Node o da Vue.
+ */
+export const TOR_NETWORK = 'T1'
+
+export const BLOCKABLE_COUNTRIES: string[] = [
+  ...('ad ae af ag ai al am ao aq ar as at au aw ax az ba bb bd be bf bg bh bi bj bl bm bn bo bq br bs bt bw by bz '
+    + 'ca cc cd cf cg ch ci ck cl cm cn co cr cu cv cw cy cz de dj dk dm do dz ec ee eg er es et fi fj fk fm fo fr '
+    + 'ga gb gd ge gf gg gh gi gl gm gn gp gq gr gt gu gw gy hk hn hr ht hu id ie il im in io iq ir is it je jm jo jp '
+    + 'ke kg kh ki km kn kp kr kw ky kz la lb lc li lk lr ls lt lu lv ly ma mc md me mf mg mh mk ml mm mn mo mp mq '
+    + 'mr ms mt mu mv mw mx my mz na nc ne nf ng ni nl no np nr nu nz om pa pe pf pg ph pk pl pm pr ps pt pw py qa '
+    + 're ro rs ru rw sa sb sc sd se sg si sk sl sm sn so sr ss st sv sx sy sz tc td tg th tj tk tl tm tn to tr tt '
+    + 'tv tw tz ua ug um us uy uz va vc ve vg vi vn vu wf ws ye yt za zm zw').toUpperCase().split(' '),
+  TOR_NETWORK,
+]
+
+let names: Intl.DisplayNames | null | undefined
+
+/** Nome del paese in italiano (es. CN → Cina). */
+export function countryName(code: string): string {
+  if (code === TOR_NETWORK) return 'Rete Tor'
+  if (names === undefined) {
+    try {
+      names = new Intl.DisplayNames(['it'], { type: 'region' })
+    }
+    catch {
+      names = null
+    }
+  }
+  try {
+    return names?.of(code) ?? code
+  }
+  catch {
+    return code
+  }
+}
+
+/** Bandiera del paese come emoji (lettere regionali); per la rete Tor nessuna. */
+export function countryFlag(code: string): string {
+  if (!/^[A-Z]{2}$/.test(code)) return ''
+  return String.fromCodePoint(...[...code].map(c => 0x1F1E6 + c.charCodeAt(0) - 65))
+}
